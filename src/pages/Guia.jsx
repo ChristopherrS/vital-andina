@@ -36,7 +36,7 @@ function Guia() {
             </ul>
           </div>
           <div className="col-md-6">
-            <img src="/assets/alimentarse.jpg" alt="Importancia" className="img-fluid rounded shadow" />
+            <img src="/src/assets/alimentarse.jpg" alt="Importancia" className="img-fluid rounded shadow" />
           </div>
         </div>
 
@@ -54,7 +54,7 @@ function Guia() {
             </ul>
           </div>
           <div className="col-md-6 order-md-1">
-            <img src="/assets/mitos.jpg" alt="Mitos" className="img-fluid rounded shadow" />
+            <img src="/src/assets/mitos.jpg" alt="Mitos" className="img-fluid rounded shadow" />
           </div>
         </div>
 
@@ -63,7 +63,7 @@ function Guia() {
           <div className="col-md-6">
             <h4 className="text-warning fw-bold">
               <FaCarrot className="me-2" />
-              Alimentos andinos modernos
+              Alimentos andinos
             </h4>
             <p>
               Desde sopas de melloco hasta hamburguesas de quinua, los alimentos de nuestra tierra se reinventan en la cocina moderna sin perder su valor ancestral.
@@ -75,7 +75,7 @@ function Guia() {
             </ul>
           </div>
           <div className="col-md-6">
-            <img src="/assets/modernos.jpg" alt="Modernos" className="img-fluid rounded shadow" />
+            <img src="/src/assets/modernos.jpg" alt="Modernos" className="img-fluid rounded shadow" />
           </div>
         </div>
 
@@ -93,7 +93,7 @@ function Guia() {
             </ul>
           </div>
           <div className="col-md-6 order-md-1">
-            <img src="/assets/recomendaciones.jpg" alt="Recomendaciones" className="img-fluid rounded shadow" />
+            <img src="/src/assets/recomendaciones.jpg" alt="Recomendaciones" className="img-fluid rounded shadow" />
           </div>
         </div>
       </section>
