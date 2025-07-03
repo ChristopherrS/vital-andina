@@ -1,0 +1,14 @@
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.card {
+  transition: all 0.3s ease-in-out;
+}
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
