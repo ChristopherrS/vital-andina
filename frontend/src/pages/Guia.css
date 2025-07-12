@@ -131,3 +131,45 @@
 .guia-btn:hover {
   background: #f39c12;
 }
+.guia-profesional-cta {
+  background: linear-gradient(135deg, #e3fcec, #d1f2eb);
+  padding: 2rem;
+  margin-top: 1rem;
+  text-align: center;
+  border-top: 4px solid #2e7d32; /* verde oscuro */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.guia-profesional-cta .icon {
+  font-size: 3rem;
+  color: #2e7d32; /* verde médico */
+  margin-bottom: 0.5rem;
+}
+
+.guia-profesional-cta h3 {
+  font-size: 1.8rem;
+  color: #1b5e20;
+  margin-bottom: 0.5rem;
+}
+
+.guia-profesional-cta p {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .guia-profesional-cta {
+    padding: 1.5rem;
+  }
+  .guia-profesional-cta h3 {
+    font-size: 1.5rem;
+  }
+  .guia-profesional-cta p {
+    font-size: 1rem;
+  }
+}
+

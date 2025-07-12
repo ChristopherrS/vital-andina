@@ -122,3 +122,41 @@
 .modal-receta .modal-footer {
   background: #f1f8e9;
 }
+
+/* Modal estilos */
+.modal-receta .modal-content {
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: #f9fff9;
+}
+
+.modal-receta .modal-title {
+  color: #388e3c;
+}
+
+.modal-receta ol {
+  margin-left: 1rem;
+}
+
+.modal-receta button.btn-success {
+  background-color: #4caf50;
+  border: none;
+}
+
+.modal-receta button.btn-success:hover {
+  background-color: #388e3c;
+}
+
+/* Sección para agregar receta */
+.agregar-receta-seccion {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #e8f5e9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.agregar-receta-seccion h3 {
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}

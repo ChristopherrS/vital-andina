@@ -4,12 +4,16 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import { useEffect } from "react";
 
+// Importa los logos de los otros proyectos
+import nuevoMundoLogo from "/assets/nuevo-mundo.png";
+import lluquiNawiLogo from "/assets/lluqui-nawi.png";
+import alliyLogo from "/assets/alliy.png";
+import yachaykunaLogo from "/assets/yachaykuna.png";
+
 function Home() {
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
-
-  
 
   return (
     <>
@@ -76,6 +80,39 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* 🌟 Otros Proyectos */}
+      <section style={{ backgroundColor: "#f9f9f9" }} className="py-5">
+        <div className="container text-center">
+          <h2 className="fw-bold mb-3">🌱 Otros Proyectos</h2>
+          <p className="text-muted mb-5">
+            Conoce más iniciativas desarrolladas con impacto social y cultural:
+          </p>
+
+          <div className="row row-cols-1 row-cols-md-2 g-4">
+            <ProyectoCard
+              logo={nuevoMundoLogo}
+              titulo="Nuevo Mundo"
+              descripcion="Busca convertirse en un referente nacional para la preservación digital y participativa del patrimonio cultural andino, inspirando a otras comunidades."
+            />
+            <ProyectoCard
+              logo={lluquiNawiLogo}
+              titulo="Lluqui Ñawi"
+              descripcion="Aplicación educativa que fomenta la lectura en niños y adolescentes de comunidades rurales, fortaleciendo el aprendizaje lector y cultural mediante IA."
+            />
+            <ProyectoCard
+              logo={alliyLogo}
+              titulo="Alliy"
+              descripcion="Plataforma para orientación sobre salud mental y prevención de la violencia en contextos rurales, con chatbot interactivo y recursos accesibles."
+            />
+            <ProyectoCard
+              logo={yachaykunaLogo}
+              titulo="YachaykunaLink"
+              descripcion="Proyecto sobre capacitaciones a niños, jóvenes y adultos para el uso responsable de redes sociales."
+            />
+          </div>
+        </div>
+      </section>
     </>
   );
 }
@@ -108,4 +145,20 @@ function Paso({ numero, titulo, descripcion, link }) {
   );
 }
 
-export default Home; 
+function ProyectoCard({ logo, titulo, descripcion }) {
+  return (
+    <div className="col" data-aos="fade-up">
+      <div className="bg-white rounded-4 shadow-sm p-4 h-100 text-center">
+        <img
+          src={logo}
+          alt={titulo}
+          style={{ width: "100px", height: "auto", marginBottom: "1rem" }}
+        />
+        <h5 className="fw-semibold">{titulo}</h5>
+        <p className="text-muted small">{descripcion}</p>
+      </div>
+    </div>
+  );
+}
+
+export default Home;

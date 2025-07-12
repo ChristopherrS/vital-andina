@@ -1,0 +1,76 @@
+.footer {
+  background: linear-gradient(135deg, rgb(24, 87, 36), rgb(58, 148, 71));
+  color: #fff;
+  padding: 2rem 1rem;
+}
+
+.footer-contenido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* responsive */
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 1.5rem;
+}
+
+.footer-creditos {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  max-width: 600px;
+}
+
+.footer-creditos p {
+  font-size: 0.9rem;
+  color: #dcdcdc;
+}
+
+.puce-logo {
+  width: 190px;
+  height: auto;
+  border-radius: 5px;
+  background: #fff;
+  padding: 5px;
+}
+
+.footer-redes h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.redes-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.redes-icons a {
+  color: #fff;
+  font-size: 1.5rem;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.redes-icons a:hover {
+  transform: scale(1.2);
+}
+
+.redes-icons a[title="Instagram"]:hover {
+  color: #E1306C;
+}
+
+.redes-icons a[title="Facebook"]:hover {
+  color: #1877F2;
+}
+
+.redes-icons a[title="TikTok"]:hover {
+  color: #69C9D0;
+}
+
+.footer-copy {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #ccc;
+}
