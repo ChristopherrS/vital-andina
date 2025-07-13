@@ -235,5 +235,5 @@ app.get("/api/alimentos/:id/recetas", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(` Servidor corriendo en http://localhost:${PORT}`);
+  console.log(` Servidor corriendo en https://apivitalandina.puceecoexplora.com`);
 });
