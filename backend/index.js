@@ -7,17 +7,17 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 4045;
+const PORT =  4045;
 
 app.use(cors());
 app.use(express.json());
 
-// 🔥 PostgreSQL
+//  PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-// 📂 Configuración de Multer para subir imágenes
+//  Configuración de Multer para subir imágenes
 const storage = multer.diskStorage({
   destination: "./uploads", // Carpeta para guardar imágenes
   filename: (req, file, cb) => {
@@ -26,10 +26,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// 📸 Servir imágenes desde la carpeta /uploads
+//  Servir imágenes desde la carpeta /uploads
 app.use("/uploads", express.static("uploads"));
 
-// 🔥 Ruta para la IA mejorada
+//  Ruta para la IA mejorada
 let chatHistorial = [
   {
     role: "system",
