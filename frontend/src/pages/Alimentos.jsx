@@ -7,7 +7,7 @@ const Alimentos = () => {
   const [alimentos, setAlimentos] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/alimentos')
+    fetch('https://apivitalandina.puceecoexplora.com/api/alimentos')
       .then(res => res.json())
       .then(data => setAlimentos(data))
       .catch(err => console.error('Error al obtener alimentos:', err));

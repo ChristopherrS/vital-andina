@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AgregarRecetaForm.css";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL; // URL del backend
+const backendUrl = 'https://apivitalandina.puceecoexplora.com'; // URL del backend
 
 const AgregarRecetaForm = ({ onRecetaAgregada }) => {
   const [alimentos, setAlimentos] = useState([]);

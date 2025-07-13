@@ -27,3 +27,51 @@
   gap: 2rem;
   padding: 3rem 2rem;
 }
+.alimento-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.alimento-card:hover {
+  transform: scale(1.02);
+}
+
+.alimento-img {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.alimento-sugerido {
+  background: #f4f8f4; /* verde muy claro */
+  border: 1px dashed #85bb65;
+}
+
+.alimento-sugerido-header {
+  background: #dff0d8;
+  color: #3c763d;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.alimento-content {
+  padding: 15px;
+}
+
+.alimento-content h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #4caf50;
+}
+
+.alimento-content p {
+  color: #555;
+  font-size: 0.95rem;
+}

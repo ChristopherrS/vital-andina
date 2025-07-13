@@ -26,8 +26,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-//  Servir imágenes desde la carpeta /uploads
-app.use("/uploads", express.static("uploads"));
+
 
 //  Ruta para la IA mejorada
 let chatHistorial = [
@@ -36,12 +35,12 @@ let chatHistorial = [
     content: `
 Eres un experto en nutrición andina con profundo conocimiento sobre alimentos ancestrales como quinua, tarwi, chocho, melloco, mashua y oca. 
 
-✅ Habla de forma clara, amigable y motivadora.  
-✅ Adapta tu tono según la edad del usuario (adulto, niño o adolescente).  
-✅ Da consejos prácticos sobre hábitos saludables, recetas nutritivas y beneficios de los alimentos andinos.  
-✅ Si el usuario lo pide, sugiere recetas fáciles con identidad andina.  
-✅ Nunca inventes datos: si no sabes algo, indícalo amablemente.  
-✅ Responde en no más de 3 o 4 frases para mantener la conversación fluida.
+    Habla de forma clara, amigable y motivadora.  
+    Adapta tu tono según la edad del usuario (adulto, niño o adolescente).  
+    Da consejos prácticos sobre hábitos saludables, recetas nutritivas y beneficios de los alimentos andinos.  
+    Si el usuario lo pide, sugiere recetas fáciles con identidad andina.  
+    Nunca inventes datos: si no sabes algo, indícalo amablemente.  
+    Responde en no más de 3 o 4 frases para mantener la conversación fluida.
 
 Ejemplo:
 **Usuario:** ¿Qué beneficios tiene la quinua?  
@@ -51,6 +50,8 @@ Ejemplo:
 ];
 
 app.post("/api/chat", async (req, res) => {
+  console.log("🔑 OPENROUTER_API_KEY:", process.env.OPENROUTER_API_KEY);
+
   const { mensaje, reset } = req.body;
 
   try {
@@ -60,14 +61,14 @@ app.post("/api/chat", async (req, res) => {
         {
           role: "system",
           content: `
-Eres un experto en nutrición andina con profundo conocimiento sobre alimentos ancestrales como quinua, tarwi, chocho, melloco, mashua y oca. 
+     Eres un experto en nutrición andina con profundo conocimiento sobre alimentos ancestrales como quinua, tarwi, chocho, melloco, mashua y oca. 
 
-✅ Habla de forma clara, amigable y motivadora.  
-✅ Adapta tu tono según la edad del usuario (adulto, niño o adolescente).  
-✅ Da consejos prácticos sobre hábitos saludables, recetas nutritivas y beneficios de los alimentos andinos.  
-✅ Si el usuario lo pide, sugiere recetas fáciles con identidad andina.  
-✅ Nunca inventes datos: si no sabes algo, indícalo amablemente.  
-✅ Responde en no más de 3 o 4 frases para mantener la conversación fluida.
+    Habla de forma clara, amigable y motivadora.  
+    Adapta tu tono según la edad del usuario (adulto, niño o adolescente).  
+    Da consejos prácticos sobre hábitos saludables, recetas nutritivas y beneficios de los alimentos andinos.  
+    Si el usuario lo pide, sugiere recetas fáciles con identidad andina.  
+    Nunca inventes datos: si no sabes algo, indícalo amablemente.  
+    Responde en no más de 3 o 4 frases para mantener la conversación fluida.
           `.trim(),
         },
       ];
@@ -79,6 +80,7 @@ Eres un experto en nutrición andina con profundo conocimiento sobre alimentos a
     chatHistorial.push({ role: "user", content: mensaje });
 
     const response = await axios.post(
+      
       "https://openrouter.ai/api/v1/chat/completions",
       {
         model: "deepseek/deepseek-r1:free",
@@ -88,10 +90,11 @@ Eres un experto en nutrición andina con profundo conocimiento sobre alimentos a
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "http://localhost:4000",
+          "HTTP-Referer": "https://apivitalandina.puceecoexplora.com/api/alimentos",
           "X-Title": "VitalAndinaBot",
         },
       }
+      
     );
 
     if (
@@ -101,7 +104,7 @@ Eres un experto en nutrición andina con profundo conocimiento sobre alimentos a
       response.data.choices[0].message
     ) {
       const respuestaIA = response.data.choices[0].message.content;
-      console.log("🤖 Respuesta IA:", respuestaIA);
+      console.log(" Respuesta IA:", respuestaIA);
 
       // Añadir respuesta de la IA al historial
       chatHistorial.push({ role: "assistant", content: respuestaIA });
@@ -113,44 +116,45 @@ Eres un experto en nutrición andina con profundo conocimiento sobre alimentos a
 
       res.json({ respuesta: respuestaIA });
     } else {
-      console.error("❌ Respuesta inválida de OpenRouter:", response.data);
+      console.error(" Respuesta inválida de OpenRouter:", response.data);
       res.status(500).json({ error: "La IA no devolvió ninguna respuesta." });
     }
   } catch (err) {
-    console.error("❌ Error al consultar OpenRouter:", err?.response?.data || err.message);
+    console.error(" Error al consultar OpenRouter:", err?.response?.data || err.message);
     res.status(500).json({ error: "No se pudo obtener respuesta de la IA." });
   }
+  
 });
 
 
-// ✅ Obtener todos los alimentos
+//  Obtener todos los alimentos
 app.get("/api/alimentos", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM alimentos ORDER BY id;");
     res.json(result.rows);
   } catch (error) {
-    console.error("❌ Error al obtener alimentos:", error);
+    console.error(" Error al obtener alimentos:", error);
     res.status(500).json({ error: "Error al obtener alimentos" });
   }
 });
 
-// ✅ AGREGAR NUEVO ALIMENTO (con imagen opcional)
-app.post("/api/alimentos", upload.single("imagen"), async (req, res) => {
+// AGREGAR NUEVO ALIMENTO (sin imagen)
+app.post("/api/alimentos", async (req, res) => {
   const { nombre, descripcion, beneficios } = req.body;
-  const imagenUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
     const result = await pool.query(
-      `INSERT INTO alimentos (nombre, descripcion, beneficios, imagen_url)
-       VALUES ($1, $2, $3, $4) RETURNING *`,
-      [nombre, descripcion, beneficios.split(","), imagenUrl]
+      `INSERT INTO alimentos (nombre, descripcion, beneficios)
+       VALUES ($1, $2, $3) RETURNING *`,
+      [nombre, descripcion, beneficios.split(",")]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error("❌ Error al agregar alimento:", err);
+    console.error(" Error al agregar alimento:", err);
     res.status(500).json({ error: "Error al guardar alimento" });
   }
 });
+
 
 // ✅ AGREGAR NUEVA RECETA
 app.post("/api/recetas", async (req, res) => {
@@ -164,21 +168,21 @@ app.post("/api/recetas", async (req, res) => {
       [
         nombre,
         descripcion,
-        pasos ? `{${pasos}}` : "{}", // 🔥 Convierte a formato array PostgreSQL
-        ingredientes ? `{${ingredientes}}` : "{}", // 🔥 Convierte a array
+        pasos ? `{${pasos}}` : "{}", // Convierte a formato array PostgreSQL
+        ingredientes ? `{${ingredientes}}` : "{}", //  Convierte a array
         parseInt(alimento_id), // Asegúrate de enviarlo como entero
-        beneficios ? `{${beneficios}}` : "{}", // 🔥 Convierte a array
+        beneficios ? `{${beneficios}}` : "{}", //  Convierte a array
       ]
     );
 
     res.status(201).json(result.rows[0]); // Devuelve la receta creada
   } catch (err) {
-    console.error("❌ Error al agregar receta:", err);
+    console.error(" Error al agregar receta:", err);
     res.status(500).json({ error: "Error al guardar receta" });
   }
 });
 
-// ✅ Obtener todas las recetas (con alimento asociado)
+//  Obtener todas las recetas (con alimento asociado)
 app.get("/api/recetas", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -189,7 +193,7 @@ app.get("/api/recetas", async (req, res) => {
         r.pasos, 
         r.ingredientes, 
         r.beneficios,
-        r.alimento_id,              -- ✅ Incluye el alimento_id
+        r.alimento_id,              --  Incluye el alimento_id
         a.nombre AS alimento_nombre
       FROM recetas r
       JOIN alimentos a ON a.id = r.alimento_id
@@ -206,12 +210,12 @@ app.get("/api/recetas", async (req, res) => {
 
     res.json(recetas);
   } catch (error) {
-    console.error("❌ Error al obtener recetas:", error);
+    console.error(" Error al obtener recetas:", error);
     res.status(500).json({ error: "Error al obtener recetas" });
   }
 });
 
-// ✅ Obtener recetas por alimento
+//  Obtener recetas por alimento
 app.get("/api/alimentos/:id/recetas", async (req, res) => {
   const alimentoId = parseInt(req.params.id);
   if (isNaN(alimentoId)) {
@@ -220,16 +224,16 @@ app.get("/api/alimentos/:id/recetas", async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT * FROM recetas WHERE alimento_id = $1 ORDER BY id`,
+      `SELECT * FROM recetas WHERE alimento_id = $1 ORDER BY id`, 
       [alimentoId]
     );
     res.json(result.rows);
   } catch (error) {
-    console.error("❌ Error al obtener recetas del alimento:", error);
+    console.error(" Error al obtener recetas del alimento:", error);
     res.status(500).json({ error: "Error al obtener recetas del alimento" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+  console.log(` Servidor corriendo en http://localhost:${PORT}`);
 });

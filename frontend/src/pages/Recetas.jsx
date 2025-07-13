@@ -3,7 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import AgregarRecetaForm from "../components/AgregarRecetaForm"; // Formulario
 import "./Recetas.css";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const backendUrl = 'https://apivitalandina.puceecoexplora.com';
 
 const Recetas = () => {
   const [recetas, setRecetas] = useState([]);

@@ -4,27 +4,38 @@ import { useNavigate } from "react-router-dom";
 const AlimentosCard = ({ alimento }) => {
   const navigate = useNavigate();
 
-  // URL base del backend desde .env
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://apivitalandina.puceecoexplora.com";
 
-  // Construir URL de la imagen
+  // Verificar si tiene imagen o no
+  const tieneImagen = alimento.imagen_url && alimento.imagen_url.trim() !== "";
+
+  // Construir URL solo si existe imagen
   const imagenUrl =
-    alimento.imagen_url.startsWith("http") // ✅ Si ya es una URL externa completa
+    tieneImagen && alimento.imagen_url.startsWith("http")
       ? alimento.imagen_url
-      : `${backendUrl}${alimento.imagen_url}`; // ✅ Si es una ruta relativa (uploads)
+      : tieneImagen
+      ? `${backendUrl}${alimento.imagen_url}`
+      : null;
 
   const verRecetas = () => {
     navigate("/recetas");
   };
 
   return (
-    <div className="alimento-card" onClick={verRecetas}>
-      <div
-        className="alimento-img"
-        style={{
-          backgroundImage: `url(${imagenUrl || "/assets/default-food.jpg"})`,
-        }}
-      ></div>
+    <div
+      className={`alimento-card ${!tieneImagen ? "alimento-sugerido" : ""}`}
+      onClick={verRecetas}
+    >
+      {tieneImagen ? (
+        <div
+          className="alimento-img"
+          style={{ backgroundImage: `url(${imagenUrl})` }}
+        ></div>
+      ) : (
+        <div className="alimento-sugerido-header">
+          🌱 <span>Alimento Sugerido</span>
+        </div>
+      )}
       <div className="alimento-content">
         <h3>{alimento.nombre}</h3>
         <p>{alimento.descripcion}</p>

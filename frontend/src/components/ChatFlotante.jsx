@@ -16,22 +16,26 @@ function ChatFlotante() {
     const texto = pregunta.trim();
     if (!texto) return;
 
-    setMensajes([...mensajes, { rol: "usuario", texto }]);
+    setMensajes((prev) => [...prev, { rol: "usuario", texto }]);
     setPregunta("");
     setCargando(true);
 
     try {
-      const res = await axios.post("http://localhost:4000/api/chat", { prompt: texto });
+      const res = await axios.post("https://apivitalandina.puceecoexplora.com/api/chat", {
+        mensaje: texto, 
+      });
 
       const respuesta =
-        res.data?.respuesta ||
-        res.data?.choices?.[0]?.message?.content ||
-        res.data?.choices?.[0]?.text ||
-        "Sin respuesta.";
+        res.data?.respuesta?.trim() ||
+        " La IA no pudo generar una respuesta en este momento.";
 
-      setMensajes((prev) => [...prev, { rol: "ia", texto: respuesta.trim() }]);
-    } catch {
-      setMensajes((prev) => [...prev, { rol: "ia", texto: "Error al conectar con la IA." }]);
+      setMensajes((prev) => [...prev, { rol: "ia", texto: respuesta }]);
+    } catch (error) {
+      console.error(" Error al conectar con la IA:", error);
+      setMensajes((prev) => [
+        ...prev,
+        { rol: "ia", texto: " No se pudo conectar con la IA. Intenta más tarde." },
+      ]);
     } finally {
       setCargando(false);
     }
