@@ -17,17 +17,6 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-//  Configuración de Multer para subir imágenes
-const storage = multer.diskStorage({
-  destination: "./uploads", // Carpeta para guardar imágenes
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // nombre único
-  },
-});
-const upload = multer({ storage: storage });
-
-
-
 //  Ruta para la IA mejorada
 let chatHistorial = [
   {
@@ -50,7 +39,7 @@ Ejemplo:
 ];
 
 app.post("/api/chat", async (req, res) => {
-  console.log("🔑 OPENROUTER_API_KEY:", process.env.OPENROUTER_API_KEY);
+  console.log(" OPENROUTER_API_KEY:", process.env.OPENROUTER_API_KEY);
 
   const { mensaje, reset } = req.body;
 
@@ -74,7 +63,7 @@ app.post("/api/chat", async (req, res) => {
       ];
     }
 
-    console.log("📥 Usuario:", mensaje);
+    
 
     // Añadir el mensaje del usuario al historial
     chatHistorial.push({ role: "user", content: mensaje });
@@ -90,7 +79,7 @@ app.post("/api/chat", async (req, res) => {
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "https://apivitalandina.puceecoexplora.com/api/alimentos",
+          "HTTP-Referer": "https://openrouter.ai/",
           "X-Title": "VitalAndinaBot",
         },
       }
