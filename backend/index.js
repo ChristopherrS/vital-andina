@@ -9,7 +9,7 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 4045;
 
-//  Permitir CORS para cualquier origen (ajusta según necesidad)
+// Permitir CORS para cualquier origen (ajusta según necesidad)
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -48,9 +48,6 @@ app.post("/api/chat", async (req, res) => {
   const { mensaje, reset } = req.body;
 
   try {
-    console.log(" Usuario:", mensaje);
-    console.log(" OPENROUTER_API_KEY:", process.env.OPENROUTER_API_KEY);
-
     if (reset) {
       // Reiniciar historial con el prompt mejorado
       chatHistorial = [
@@ -96,7 +93,6 @@ Responde en no más de 3 o 4 frases para mantener la conversación fluida.
       response.data.choices[0].message
     ) {
       const respuestaIA = response.data.choices[0].message.content;
-      console.log(" Respuesta IA:", respuestaIA);
 
       // Añadir respuesta de la IA al historial
       chatHistorial.push({ role: "assistant", content: respuestaIA });
@@ -108,11 +104,9 @@ Responde en no más de 3 o 4 frases para mantener la conversación fluida.
 
       return res.json({ respuesta: respuestaIA });
     } else {
-      console.error(" Respuesta inválida de OpenRouter:", response.data);
       return res.status(500).json({ error: "La IA no devolvió ninguna respuesta." });
     }
   } catch (err) {
-    console.error(" Error al consultar OpenRouter:", err?.response?.data || err.message);
     return res.status(500).json({ error: "No se pudo obtener respuesta de la IA." });
   }
 });
@@ -123,7 +117,6 @@ app.get("/api/alimentos", async (req, res) => {
     const result = await pool.query("SELECT * FROM alimentos ORDER BY id;");
     res.json(result.rows);
   } catch (error) {
-    console.error(" Error al obtener alimentos:", error);
     res.status(500).json({ error: "Error al obtener alimentos" });
   }
 });
@@ -140,7 +133,6 @@ app.post("/api/alimentos", async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error(" Error al agregar alimento:", err);
     res.status(500).json({ error: "Error al guardar alimento" });
   }
 });
@@ -164,7 +156,6 @@ app.post("/api/recetas", async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error(" Error al agregar receta:", err);
     res.status(500).json({ error: "Error al guardar receta" });
   }
 });
@@ -188,7 +179,6 @@ app.get("/api/recetas", async (req, res) => {
     `);
     res.json(result.rows);
   } catch (error) {
-    console.error(" Error al obtener recetas:", error);
     res.status(500).json({ error: "Error al obtener recetas" });
   }
 });
@@ -207,11 +197,10 @@ app.get("/api/alimentos/:id/recetas", async (req, res) => {
     );
     res.json(result.rows);
   } catch (error) {
-    console.error(" Error al obtener recetas del alimento:", error);
     res.status(500).json({ error: "Error al obtener recetas del alimento" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(` Servidor corriendo en https://apivitalandina.puceecoexplora.com`);
+  console.log(`Servidor corriendo en https://apivitalandina.puceecoexplora.com`);
 });
